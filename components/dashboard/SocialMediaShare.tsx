@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Share2, Facebook, Twitter, Linkedin, Instagram, Mail, Copy } from 'lucide-react';
@@ -13,14 +13,13 @@ interface ShareData {
   hashtags: string[];
 }
 
-const mockCertificate: ShareData = {
-  title: 'I completed the Happiness Workshop!',
-  description: 'Excited to share that I just completed the Happiness and Well-Being Workshop with Ellipsis of Happiness Foundation!',
-  url: window.location.origin,
-  hashtags: ['HappinessJourney', 'WellBeing', 'MentalHealth', 'PersonalGrowth']
-};
-
 export const SocialMediaShare: React.FC = () => {
+  const mockCertificate = useMemo(() => ({
+    title: 'I completed the Happiness Workshop!',
+    description: 'Excited to share that I just completed the Happiness and Well-Being Workshop with Ellipsis of Happiness Foundation!',
+    url: typeof window !== 'undefined' ? window.location.origin : '',
+    hashtags: ['HappinessJourney', 'WellBeing', 'MentalHealth', 'PersonalGrowth']
+  }), []);
   const handleShare = (platform: string) => {
     const hashtags = mockCertificate.hashtags.join(' ');
     const text = `${mockCertificate.description} ${hashtags}`;
