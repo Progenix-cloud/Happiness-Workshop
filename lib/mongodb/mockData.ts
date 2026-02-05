@@ -2,7 +2,17 @@
  * Mock Data for Development
  */
 
-import type { IUser, IWorkshop, ICertificate, ITestimonial, IFeedback, IAnalytics } from './schemas';
+import type { 
+  IUser, 
+  IWorkshop, 
+  ICertificate, 
+  ITestimonial, 
+  IFeedback, 
+  IAnalytics,
+  IWorkshopParticipant,
+  IRawZoomLog,
+  IJoyCoinTransaction
+} from './schemas';
 
 export const mockUsers: IUser[] = [
   {
@@ -17,6 +27,7 @@ export const mockUsers: IUser[] = [
     certificatesCount: 5,
     workshopsAttended: 12,
     workshopsBooked: 15,
+    joyCoins: 250, // 💰 Initial balance
     createdAt: new Date('2024-01-01'),
     updatedAt: new Date('2024-02-02'),
   },
@@ -33,6 +44,7 @@ export const mockUsers: IUser[] = [
     certificatesCount: 8,
     workshopsAttended: 20,
     workshopsBooked: 18,
+    joyCoins: 420, // 💰 Initial balance
     createdAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-02-02'),
   },
@@ -48,6 +60,7 @@ export const mockUsers: IUser[] = [
     certificatesCount: 3,
     workshopsAttended: 8,
     workshopsBooked: 10,
+    joyCoins: 160, // 💰 Initial balance
     createdAt: new Date('2024-01-20'),
     updatedAt: new Date('2024-02-02'),
   },
@@ -64,6 +77,7 @@ export const mockUsers: IUser[] = [
     certificatesCount: 2,
     workshopsAttended: 5,
     workshopsBooked: 8,
+    joyCoins: 180, // 💰 Initial balance
     createdAt: new Date('2024-02-01'),
     updatedAt: new Date('2024-02-02'),
   },
@@ -79,7 +93,104 @@ export const mockUsers: IUser[] = [
     certificatesCount: 1,
     workshopsAttended: 2,
     workshopsBooked: 3,
+    joyCoins: 160, // 💰 Initial balance
     createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '6',
+    email: 'partner@happiness.com',
+    name: 'Partnership Manager',
+    password: 'hashed_password_103',
+    role: 'partner',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=partner',
+    bio: 'Partner organization manager',
+    happinessScore: 8.0,
+    certificatesCount: 0,
+    workshopsAttended: 0,
+    workshopsBooked: 5,
+    joyCoins: 280, // 💰 Initial balance
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '7',
+    email: 'donor@happiness.com',
+    name: 'Generous Donor',
+    password: 'hashed_password_104',
+    role: 'donor',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=donor',
+    bio: 'Supporting the mission',
+    happinessScore: 8.2,
+    certificatesCount: 0,
+    workshopsAttended: 1,
+    workshopsBooked: 0,
+    joyCoins: 600, // 💰 Initial balance
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '8',
+    email: 'rwa@happiness.com',
+    name: 'RWA Community Lead',
+    password: 'hashed_password_105',
+    role: 'rwa',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=rwa',
+    bio: 'Residential welfare association',
+    happinessScore: 8.1,
+    certificatesCount: 0,
+    workshopsAttended: 3,
+    workshopsBooked: 8,
+    joyCoins: 240, // 💰 Initial balance
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '9',
+    email: 'phd@happiness.com',
+    name: 'Dr. Research Scholar',
+    password: 'hashed_password_106',
+    role: 'phd-scholar',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=phd',
+    bio: 'Research and academic studies',
+    happinessScore: 8.7,
+    certificatesCount: 10,
+    workshopsAttended: 25,
+    workshopsBooked: 20,
+    joyCoins: 550, // 💰 Initial balance
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '10',
+    email: 'director@happiness.com',
+    name: 'Executive Director',
+    password: 'hashed_password_107',
+    role: 'director',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=director',
+    bio: 'Organization leadership',
+    happinessScore: 8.8,
+    certificatesCount: 12,
+    workshopsAttended: 30,
+    workshopsBooked: 35,
+    joyCoins: 500, // 💰 Initial balance
+    createdAt: new Date('2024-01-01'),
+    updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '11',
+    email: 'coadmin@happiness.com',
+    name: 'Co-Administrator',
+    password: 'hashed_password_108',
+    role: 'co-admin',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=coadmin',
+    bio: 'Administrative support',
+    happinessScore: 8.4,
+    certificatesCount: 6,
+    workshopsAttended: 15,
+    workshopsBooked: 12,
+    joyCoins: 380, // 💰 Initial balance
+    createdAt: new Date('2024-01-15'),
     updatedAt: new Date('2024-02-02'),
   },
 ];
@@ -98,6 +209,8 @@ export const mockWorkshops: IWorkshop[] = [
     maxCapacity: 30,
     trainer: '2', // Dr. Sarah Johnson
     status: 'published',
+    joyCoinsReward: 20, // 💰 Reward for completing
+    isProcessed: false,
     registrations: [
       { userId: '4', status: 'attended', registeredAt: new Date('2024-02-10') },
       { userId: '5', status: 'attended', registeredAt: new Date('2024-02-10') },
@@ -119,6 +232,8 @@ export const mockWorkshops: IWorkshop[] = [
     maxCapacity: 25,
     trainer: '2',
     status: 'published',
+    joyCoinsReward: 20,
+    isProcessed: false,
     registrations: [
       { userId: '4', status: 'booked', registeredAt: new Date('2024-02-05') },
       { userId: '5', status: 'interested', registeredAt: new Date('2024-02-08') },
@@ -138,6 +253,8 @@ export const mockWorkshops: IWorkshop[] = [
     maxCapacity: 40,
     trainer: '2',
     status: 'published',
+    joyCoinsReward: 20,
+    isProcessed: false,
     registrations: [
       { userId: '4', status: 'booked', registeredAt: new Date('2024-02-02') },
     ],
@@ -238,6 +355,11 @@ export const mockAnalytics: IAnalytics = {
   updatedAt: new Date('2024-02-02'),
 };
 
+// 📊 ZOOM TRACKING DATA
+export const workshopParticipants: IWorkshopParticipant[] = [];
+export const rawZoomLogs: IRawZoomLog[] = [];
+export const joyCoins: IJoyCoinTransaction[] = [];
+
 export const mockDatabase = {
   users: mockUsers,
   workshops: mockWorkshops,
@@ -245,4 +367,15 @@ export const mockDatabase = {
   testimonials: mockTestimonials,
   feedback: mockFeedback,
   analytics: mockAnalytics,
+  workshopParticipants,
+  rawZoomLogs,
+  joyCoins,
 };
+
+// 🌐 Export mutable references for API routes
+export const users = mockUsers;
+export const workshops = mockWorkshops;
+export const certificates = mockCertificates;
+export const testimonials = mockTestimonials;
+export const feedback = mockFeedback;
+export const analytics = mockAnalytics;

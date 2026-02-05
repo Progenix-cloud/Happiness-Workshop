@@ -101,7 +101,7 @@ export function DashboardOverview() {
         <Card className="bg-white border-0 shadow-md">
           <CardContent className="p-6">
             <p className="text-gray-500 text-sm mb-4">Contribution</p>
-            <p className="text-3xl font-bold text-gray-900">${analytics.totalUsers * 23}</p>
+            <p className="text-3xl font-bold text-gray-900">{user?.joyCoins ?? 0}</p>
           </CardContent>
         </Card>
 

@@ -22,15 +22,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load from localStorage on mount
   useEffect(() => {
-    const savedToken = localStorage.getItem('auth_token');
-    const savedUser = localStorage.getItem('auth_user');
+    const loadAuth = async () => {
+      const savedToken = localStorage.getItem('auth_token');
+      const savedUser = localStorage.getItem('auth_user');
 
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUserState(JSON.parse(savedUser));
-    }
+      if (savedToken && savedUser) {
+        // Validate that the token is still valid by calling an API
+        try {
+          const response = await fetch('/api/joycoins/wallet', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${savedToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
 
-    setIsLoading(false);
+          if (response.ok) {
+            // Token is valid, restore session
+            setToken(savedToken);
+            setUserState(JSON.parse(savedUser));
+          } else if (response.status === 401) {
+            // Token is invalid (401 Unauthorized)
+            // Clear localStorage and start fresh
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_user');
+          }
+        } catch (error) {
+          console.error('Token validation error:', error);
+          // On error, clear localStorage to be safe
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+        }
+      }
+
+      setIsLoading(false);
+    };
+
+    loadAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -71,7 +99,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('auth_user', JSON.stringify(data.user));
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      // Call logout API to clear server-side cookie
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (error) {
+      console.error('Logout API error:', error);
+    }
+
+    // Clear client-side state and storage
     setToken(null);
     setUserState(null);
     localStorage.removeItem('auth_token');

@@ -7,7 +7,7 @@ export interface IUser {
   email: string;
   name: string;
   password?: string;
-  role: 'admin' | 'trainer' | 'volunteer' | 'participant';
+  role: 'admin' | 'trainer' | 'volunteer' | 'participant' | 'partner' | 'donor' | 'rwa' | 'phd-scholar' | 'director' | 'co-admin';
   avatar?: string;
   bio?: string;
   phone?: string;
@@ -17,6 +17,7 @@ export interface IUser {
   certificatesCount: number;
   workshopsAttended: number;
   workshopsBooked: number;
+  joyCoins: number; // 💰 JoyCoin balance for gamification
   createdAt: Date;
   updatedAt: Date;
 }
@@ -35,6 +36,12 @@ export interface IWorkshop {
   image?: string;
   materials?: string[]; // URLs to PDFs, videos, etc.
   status: 'draft' | 'published' | 'completed' | 'cancelled';
+  // 🔗 Zoom Integration
+  zoomMeetingId?: string;
+  zoomPassword?: string;
+  zoomJoinUrl?: string;
+  joyCoinsReward: number; // 💰 JoyCoins awarded upon completion
+  isProcessed: boolean; // Track if post-meeting rewards have been awarded
   registrations: {
     userId: string;
     status: 'booked' | 'attended' | 'interested' | 'cancelled';
@@ -124,4 +131,40 @@ export interface IEmailTemplate {
   subject: string;
   templateName: 'registration' | 'confirmation' | 'certificate' | 'feedback' | 'testimonial';
   data: Record<string, any>;
+}
+
+// 📊 ZOOM TRACKING SYSTEM
+export interface IWorkshopParticipant {
+  _id?: string;
+  userId: string;
+  workshopId: string;
+  role: 'volunteer' | 'trainer' | 'participant'; // User role in this specific workshop
+  joinTime?: Date;
+  leaveTime?: Date;
+  totalDurationMinutes: number;
+  attendancePercentage: number;
+  status: 'registered' | 'attended' | 'completed';
+  certificateUnlocked: boolean; // 🎓 True when 75%+ attendance achieved
+  joyCoinsAwarded: boolean; // 💰 True when JoyCoins have been credited
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IRawZoomLog {
+  _id?: string;
+  payload: any; // Raw JSON from Zoom webhook
+  eventType: string; // participant_joined, participant_left, meeting_ended
+  receivedAt: Date;
+}
+
+// 🎯 JoyCoin Transaction System
+export interface IJoyCoinTransaction {
+  _id?: string;
+  userId: string;
+  amount: number; // Can be positive (earned) or negative (spent)
+  type: 'workshop_attendance' | 'certificate_earned' | 'reward' | 'deduction';
+  description: string;
+  workshopId?: string; // Reference if related to a workshop
+  balanceAfter: number; // Balance after this transaction
+  createdAt: Date;
 }

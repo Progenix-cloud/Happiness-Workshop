@@ -63,8 +63,8 @@ export function SidebarNav() {
 
   const items = navigationItems[user.role as keyof typeof navigationItems] || [];
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push('/');
   };
 

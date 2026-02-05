@@ -5,6 +5,7 @@
 
 import { db } from '@/lib/mongodb/db';
 import type { IUser } from '@/lib/mongodb/schemas';
+import { users } from '@/lib/mongodb/mockData';
 
 export interface AuthSession {
   user: IUser;
@@ -43,7 +44,8 @@ export const authService = {
       throw new Error('Invalid password');
     }
 
-    const token = generateMockToken();
+    const token = generateMockToken(user._id!.toString());
+    
     const session: AuthSession = {
       user,
       token,
@@ -71,6 +73,7 @@ export const authService = {
       role: data.role,
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.name}`,
       happinessScore: 7.0,
+      joyCoins: 100, // Starting balance for new users
       certificatesCount: 0,
       workshopsAttended: 0,
       workshopsBooked: 0,
@@ -78,7 +81,7 @@ export const authService = {
       updatedAt: new Date(),
     });
 
-    const token = generateMockToken();
+    const token = generateMockToken(newUser._id!.toString());
     const session: AuthSession = {
       user: newUser,
       token,
@@ -119,17 +122,41 @@ export const authService = {
    */
   getCurrentUser: async (token: string): Promise<IUser | null> => {
     const session = await authService.verifyToken(token);
-    return session?.user || null;
+    if (session?.user) {
+      return session.user;
+    }
+
+    // If not in tokenStore (after hot reload), try to extract from token payload
+    try {
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        return null;
+      }
+
+      const payload = JSON.parse(
+        Buffer.from(parts[1], 'base64').toString()
+      );
+
+      if (payload.userId) {
+        const user = users.find((u) => u._id!.toString() === payload.userId);
+        return user || null;
+      }
+    } catch (e) {
+      // Token parsing failed
+    }
+    
+    return null;
   },
 };
 
 /**
- * Generate mock JWT-like token
+ * Generate mock JWT-like token with user embedded
  */
-function generateMockToken(): string {
+function generateMockToken(userId?: string): string {
   const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
   const payload = btoa(
     JSON.stringify({
+      userId: userId || 'user',
       iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + 86400,
     })
