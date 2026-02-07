@@ -1,5 +1,6 @@
-import { BrowseWorkshopsPage } from '@/components/dashboard/BrowseWorkshopsPage';
+import React from 'react';
+import BrowseWorkshopsPageNewWrapper from '@/components/dashboard/BrowseWorkshopsPageNew';
 
-export default function BrowseWorkshopsRoute() {
-  return <BrowseWorkshopsPage />;
+export default function BrowseWorkshops() {
+  return <BrowseWorkshopsPageNewWrapper />;
 }

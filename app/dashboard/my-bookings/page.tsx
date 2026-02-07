@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { MyBookingsPage } from '@/components/dashboard/MyBookingsPage';
 
 function MyBookingsLoading() {

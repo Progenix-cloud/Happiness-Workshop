@@ -206,9 +206,45 @@ export const mockWorkshops: IWorkshop[] = [
     time: '19:00',
     duration: 60,
     location: 'New York, NY',
+    mode: 'hybrid',
     maxCapacity: 30,
+    currentEnrollment: 3,
     trainer: '2', // Dr. Sarah Johnson
+    trainerName: 'Dr. Sarah Johnson',
+    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience',
+    trainerContact: {
+      email: 'trainer@happiness.com',
+      phone: '+1 (555) 123-4567',
+    },
     status: 'published',
+    locationDetails: {
+      address: '123 Wellness Street',
+      city: 'New York',
+      state: 'NY',
+      mapUrl: 'https://maps.google.com/?q=New+York+NY',
+    },
+    averageRating: 4.8,
+    totalRatings: 15,
+    feedbackComments: [
+      {
+        userId: '4',
+        userName: 'Emma Wilson',
+        userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=emma',
+        comment: 'Life-changing workshop! The mindfulness techniques are so practical.',
+        rating: 5,
+        createdAt: new Date('2024-02-16'),
+      },
+      {
+        userId: '5',
+        userName: 'Basiak',
+        userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=basiak',
+        comment: 'Dr. Sarah is an excellent instructor. Highly recommend!',
+        rating: 5,
+        createdAt: new Date('2024-02-16'),
+      },
+    ],
+    likes: ['4', '5', '3'],
+    shares: 8,
     joyCoinsReward: 20, // 💰 Reward for completing
     isProcessed: false,
     registrations: [
@@ -229,9 +265,28 @@ export const mockWorkshops: IWorkshop[] = [
     time: '18:00',
     duration: 90,
     location: 'Los Angeles, CA',
+    mode: 'offline',
     maxCapacity: 25,
+    currentEnrollment: 2,
     trainer: '2',
+    trainerName: 'Dr. Sarah Johnson',
+    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience',
+    trainerContact: {
+      email: 'trainer@happiness.com',
+      phone: '+1 (555) 123-4567',
+    },
     status: 'published',
+    locationDetails: {
+      address: '456 Wellness Avenue',
+      city: 'Los Angeles',
+      state: 'CA',
+      mapUrl: 'https://maps.google.com/?q=Los+Angeles+CA',
+    },
+    averageRating: 4.5,
+    totalRatings: 8,
+    feedbackComments: [],
+    likes: ['4'],
+    shares: 3,
     joyCoinsReward: 20,
     isProcessed: false,
     registrations: [
@@ -250,9 +305,31 @@ export const mockWorkshops: IWorkshop[] = [
     time: '14:00',
     duration: 120,
     location: 'Chicago, IL',
+    mode: 'online',
     maxCapacity: 40,
+    currentEnrollment: 1,
     trainer: '2',
+    trainerName: 'Dr. Sarah Johnson',
+    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience',
+    trainerContact: {
+      email: 'trainer@happiness.com',
+      phone: '+1 (555) 123-4567',
+    },
     status: 'published',
+    locationDetails: {
+      address: 'Virtual - Zoom Link Provided',
+      city: 'Chicago',
+      state: 'IL',
+      mapUrl: '',
+    },
+    averageRating: 4.2,
+    totalRatings: 5,
+    feedbackComments: [],
+    likes: [],
+    shares: 2,
+    zoomJoinUrl: 'https://zoom.us/j/1234567890',
+    zoomMeetingId: '123 456 7890',
+    zoomPassword: 'wellness123',
     joyCoinsReward: 20,
     isProcessed: false,
     registrations: [
@@ -260,6 +337,73 @@ export const mockWorkshops: IWorkshop[] = [
     ],
     createdAt: new Date('2024-02-01'),
     updatedAt: new Date('2024-02-02'),
+  },
+  {
+    _id: '4',
+    title: 'Positive Psychology in Practice',
+    description: 'Dive deep into the science of happiness and learn evidence-based techniques to cultivate lasting well-being, gratitude, and resilience in your daily life.',
+    category: 'Mental Health',
+    date: new Date('2026-03-10'),
+    time: '16:00',
+    duration: 120,
+    location: 'San Francisco, CA',
+    mode: 'hybrid',
+    maxCapacity: 35,
+    currentEnrollment: 8,
+    trainer: '2',
+    trainerName: 'Dr. Sarah Johnson',
+    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience in positive psychology',
+    trainerContact: {
+      email: 'trainer@happiness.com',
+      phone: '+1 (555) 123-4567',
+    },
+    poster: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800',
+    status: 'published',
+    locationDetails: {
+      address: '789 Mindful Lane, Suite 200',
+      city: 'San Francisco',
+      state: 'CA',
+      coordinates: {
+        lat: 37.7749,
+        lng: -122.4194,
+      },
+      mapUrl: 'https://maps.google.com/?q=San+Francisco+CA+789+Mindful+Lane',
+    },
+    averageRating: 4.9,
+    totalRatings: 22,
+    feedbackComments: [
+      {
+        userId: '3',
+        userName: 'John Smith',
+        userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=volunteer',
+        comment: 'The best workshop I have ever attended! Dr. Sarah brings such depth and warmth to positive psychology. The practical exercises changed how I approach each day.',
+        rating: 5,
+        createdAt: new Date('2026-02-05'),
+      },
+      {
+        userId: '6',
+        userName: 'Partnership Manager',
+        userAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=partner',
+        comment: 'Outstanding content and delivery. The gratitude practices have been transformative for our entire team.',
+        rating: 5,
+        createdAt: new Date('2026-02-04'),
+      },
+    ],
+    likes: ['3', '6', '8', '9'],
+    shares: 12,
+    zoomJoinUrl: 'https://zoom.us/j/9876543210',
+    zoomMeetingId: '987 654 3210',
+    zoomPassword: 'positive2026',
+    joyCoinsReward: 30,
+    isProcessed: false,
+    registrations: [
+      { userId: '3', status: 'booked', registeredAt: new Date('2026-02-01') },
+      { userId: '6', status: 'booked', registeredAt: new Date('2026-02-02') },
+      { userId: '8', status: 'interested', registeredAt: new Date('2026-02-03') },
+      { userId: '9', status: 'booked', registeredAt: new Date('2026-02-04') },
+    ],
+    createdAt: new Date('2026-01-15'),
+    updatedAt: new Date('2026-02-07'),
   },
 ];
 
@@ -360,6 +504,9 @@ export const workshopParticipants: IWorkshopParticipant[] = [];
 export const rawZoomLogs: IRawZoomLog[] = [];
 export const joyCoins: IJoyCoinTransaction[] = [];
 
+// Member Applications - initially empty, filled when users submit
+export const memberApplications: any[] = [];
+
 export const mockDatabase = {
   users: mockUsers,
   workshops: mockWorkshops,
@@ -370,6 +517,7 @@ export const mockDatabase = {
   workshopParticipants,
   rawZoomLogs,
   joyCoins,
+  memberApplications,
 };
 
 // 🌐 Export mutable references for API routes
@@ -379,3 +527,14 @@ export const certificates = mockCertificates;
 export const testimonials = mockTestimonials;
 export const feedback = mockFeedback;
 export const analytics = mockAnalytics;
+
+// 🌐 Mutable in-memory database for development
+export const memoryDb = {
+  users: mockUsers,
+  workshops: mockWorkshops,
+  certificates: mockCertificates,
+  testimonials: mockTestimonials,
+  feedback: mockFeedback,
+  analytics: mockAnalytics,
+  memberApplications,
+};

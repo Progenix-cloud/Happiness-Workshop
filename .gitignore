@@ -120,6 +120,7 @@ tmp/
 logs
 *.log
 *.logs
+build_output.txt
 
 # ============================================
 # Package manager lock files (optional - uncomment if needed)

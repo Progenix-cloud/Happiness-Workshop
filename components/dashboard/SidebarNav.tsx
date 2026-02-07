@@ -1,15 +1,16 @@
 'use client';
 
+import React from 'react';
 import { useAuth } from '@/lib/context/AuthContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import React from 'react';
 
 const navigationItems = {
   admin: [
     { label: 'Dashboard', href: '/dashboard', icon: '📊' },
     { label: 'Browse Workshops', href: '/dashboard/browse-workshops', icon: '🎓' },
     { label: 'Workshop Requests', href: '/dashboard/workshop-requests', icon: '📝' },
+    { label: 'Member Applications', href: '/dashboard/member-applications-management', icon: '📋' },
     { label: 'Trainers', href: '/dashboard/trainers', icon: '👨‍🏫' },
     { label: 'Users', href: '/dashboard/users', icon: '👥' },
     { label: 'Features', href: '/dashboard/features', icon: '✨' },
@@ -32,9 +33,6 @@ const navigationItems = {
   volunteer: [
     { label: 'Dashboard', href: '/dashboard', icon: '📊' },
     { label: 'Browse Workshops', href: '/dashboard/browse-workshops', icon: '🎓' },
-    { label: 'Booked', href: '/dashboard/my-bookings?status=booked', icon: '📅' },
-    { label: 'Attended', href: '/dashboard/my-bookings?status=attended', icon: '✅' },
-    { label: 'Interested', href: '/dashboard/my-bookings?status=interested', icon: '❤️' },
     { label: 'Features', href: '/dashboard/features', icon: '✨' },
     { label: 'My Certificates', href: '/dashboard/certificates', icon: '🎖️' },
     { label: 'Testimonials', href: '/dashboard/testimonials', icon: '⭐' },
@@ -43,14 +41,11 @@ const navigationItems = {
   participant: [
     { label: 'Dashboard', href: '/dashboard', icon: '📊' },
     { label: 'Browse Workshops', href: '/dashboard/browse-workshops', icon: '🎓' },
-    { label: 'Booked', href: '/dashboard/my-bookings?status=booked', icon: '📅' },
-    { label: 'Attended', href: '/dashboard/my-bookings?status=attended', icon: '✅' },
-    { label: 'Interested', href: '/dashboard/my-bookings?status=interested', icon: '❤️' },
     { label: 'Features', href: '/dashboard/features', icon: '✨' },
     { label: 'My Certificates', href: '/dashboard/certificates', icon: '🎖️' },
     { label: 'Feedback', href: '/dashboard/feedback', icon: '💬' },
     { label: 'My Quote', href: '/dashboard/my-quote', icon: '💭' },
-    { label: 'Become Trainer', href: '/dashboard/trainer-application', icon: '👨‍🏫' },
+    { label: 'Become Member', href: '/dashboard/member-application', icon: '🌟' },
   ],
 };
 

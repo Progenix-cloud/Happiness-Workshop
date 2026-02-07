@@ -1,65 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Bell, X, CheckCircle, AlertCircle, Info, Calendar, Award } from 'lucide-react';
 import { toast } from 'sonner';
-
-interface Notification {
-  id: string;
-  type: 'success' | 'info' | 'alert' | 'reminder';
-  title: string;
-  message: string;
-  timestamp: Date;
-  read: boolean;
-  icon?: React.ReactNode;
-}
-
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    type: 'success',
-    title: 'Certificate Earned!',
-    message: 'Congratulations! You earned a certificate for completing the Mindfulness Workshop.',
-    timestamp: new Date(Date.now() - 5 * 60 * 1000),
-    read: false,
-    icon: <Award className="w-5 h-5" />
-  },
-  {
-    id: '2',
-    type: 'reminder',
-    title: 'Upcoming Workshop',
-    message: 'Stress Management workshop starts in 2 hours at Main Hall.',
-    timestamp: new Date(Date.now() - 30 * 60 * 1000),
-    read: false,
-    icon: <Calendar className="w-5 h-5" />
-  },
-  {
-    id: '3',
-    type: 'info',
-    title: 'New Trainer Available',
-    message: 'Sarah Johnson just joined as a happiness trainer. Check her profile!',
-    timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    read: true,
-    icon: <Info className="w-5 h-5" />
-  },
-  {
-    id: '4',
-    type: 'alert',
-    title: 'Low Happiness Score',
-    message: 'Your recent happiness assessment shows a decline. Take a workshop to boost your well-being!',
-    timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
-    read: true,
-    icon: <AlertCircle className="w-5 h-5" />
-  }
-];
-
-export const RealtimeNotifications: React.FC = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
-  const [showPanel, setShowPanel] = useState(false);
-  const unreadCount = notifications.filter(n => !n.read).length;
+import { useNotification } from '@/lib/context/NotificationContext';
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -91,18 +38,9 @@ export const RealtimeNotifications: React.FC = () => {
     }
   };
 
-  const handleMarkAsRead = (id: string) => {
-    setNotifications(notifications.map(n => (n.id === id ? { ...n, read: true } : n)));
-  };
-
-  const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, read: true })));
-    toast.success('All notifications marked as read');
-  };
-
-  const handleDeleteNotification = (id: string) => {
-    setNotifications(notifications.filter(n => n.id !== id));
-  };
+export const RealtimeNotifications: React.FC = () => {
+  const { notifications, markAsRead, markAllAsRead, removeNotification, unreadCount } = useNotification();
+  const [showPanel, setShowPanel] = useState(false);
 
   const formatTime = (date: Date) => {
     const now = new Date();
@@ -143,7 +81,10 @@ export const RealtimeNotifications: React.FC = () => {
                   size="sm"
                   variant="outline"
                   className="bg-white text-blue-600 hover:bg-gray-100 border-0"
-                  onClick={handleMarkAllAsRead}
+                  onClick={() => {
+                    markAllAsRead();
+                    toast.success('All notifications marked as read');
+                  }}
                 >
                   Mark all as read
                 </Button>
@@ -180,7 +121,7 @@ export const RealtimeNotifications: React.FC = () => {
                       <div className="flex justify-between items-center">
                         <span className="text-xs text-gray-500">{formatTime(notification.timestamp)}</span>
                         <button
-                          onClick={() => handleDeleteNotification(notification.id)}
+                          onClick={() => removeNotification(notification.id)}
                           className="text-xs text-red-600 hover:text-red-800"
                         >
                           Dismiss

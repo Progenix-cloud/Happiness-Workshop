@@ -1,12 +1,9 @@
-import React from "react"
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import { AuthProvider } from '@/lib/context/AuthContext'
-import './globals.css'
-
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+import React from "react";
+import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { AuthProvider } from '@/lib/context/AuthContext';
+import { NotificationProvider } from '@/lib/context/NotificationContext';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Happiness & Well-Being Dashboard',
@@ -34,16 +31,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
-        <AuthProvider>
-          {children}
-          <Analytics />
-        </AuthProvider>
+      <body className="font-sans antialiased">
+        <NotificationProvider>
+          <AuthProvider>
+            {children}
+            <Analytics />
+          </AuthProvider>
+        </NotificationProvider>
       </body>
     </html>
-  )
+  );
 }
