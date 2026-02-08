@@ -58,6 +58,9 @@ export function EmailNotificationModal({
   onClose,
   workshop,
 }: EmailNotificationModalProps) {
+  // Early return BEFORE ALL HOOKS
+  if (!workshop) return null;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -67,8 +70,6 @@ export function EmailNotificationModal({
   const [recipientFilter, setRecipientFilter] = useState('all'); // all, attended, booked
   const [subject, setSubject] = useState('');
   const [body, setBody] = useState('');
-
-  if (!workshop) return null;
 
   const recipients = useMemo(() => {
     if (!workshop.registrations) return [];

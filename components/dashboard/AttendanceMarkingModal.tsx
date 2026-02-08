@@ -28,6 +28,9 @@ export function AttendanceMarkingModal({
   workshop,
   onSuccess,
 }: AttendanceMarkingModalProps) {
+  // Early return BEFORE ALL HOOKS
+  if (!workshop) return null;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -35,8 +38,6 @@ export function AttendanceMarkingModal({
   const [qrMode, setQrMode] = useState(false);
   const [attendanceData, setAttendanceData] = useState<Record<string, string>>({});
   const [markedCount, setMarkedCount] = useState(0);
-
-  if (!workshop) return null;
 
   const participants = workshop.registrations || [];
 

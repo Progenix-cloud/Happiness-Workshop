@@ -39,12 +39,13 @@ export function PDFReportGeneratorModal({
   onClose,
   workshop,
 }: PDFReportGeneratorModalProps) {
+  // Early return BEFORE ALL HOOKS
+  if (!workshop) return null;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [reportType, setReportType] = useState('full');
-
-  if (!workshop) return null;
 
   const generatePDFContent = () => {
     const date = new Date().toLocaleDateString();

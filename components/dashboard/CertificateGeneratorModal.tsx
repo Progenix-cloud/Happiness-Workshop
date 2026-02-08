@@ -25,12 +25,13 @@ export function CertificateGeneratorModal({
   onClose,
   workshop,
 }: CertificateGeneratorModalProps) {
+  // Early return BEFORE ALL HOOKS
+  if (!workshop) return null;
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [generatedCount, setGeneratedCount] = useState(0);
-
-  if (!workshop) return null;
 
   const attendedParticipants = workshop.registrations?.filter(
     (r) => r.status === 'attended'
