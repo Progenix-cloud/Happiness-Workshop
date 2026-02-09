@@ -18,7 +18,6 @@ export function MemberApplicationPage() {
   const [selectedType, setSelectedType] = useState<'trainer' | 'volunteer' | null>(null);
   const [existingApplication, setExistingApplication] = useState<IMemberApplication | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showTracker, setShowTracker] = useState(false);
 
   useEffect(() => {
     // Check if user already has an application
@@ -29,6 +28,7 @@ export function MemberApplicationPage() {
           const data = await res.json();
           if (data.application) {
             setExistingApplication(data.application);
+            setSelectedType(data.application.applicationType);
           }
         }
       } catch (error) {
@@ -47,21 +47,12 @@ export function MemberApplicationPage() {
 
   const handleApplicationSubmitted = (application: IMemberApplication) => {
     setExistingApplication(application);
-    setShowTracker(true);
-  };
-
-  const handleTrackApplication = () => {
-    setShowTracker(true);
+    setSelectedType(application.applicationType);
   };
 
   const handleBack = () => {
-    if (showTracker) {
-      setShowTracker(false);
+    if (!existingApplication) {
       setSelectedType(null);
-    } else if (selectedType) {
-      setSelectedType(null);
-    } else {
-      router.push('/dashboard');
     }
   };
 
@@ -78,14 +69,14 @@ export function MemberApplicationPage() {
 
   const BackButton = (
     <div className="flex items-center">
-      <Button variant="outline" onClick={handleBack}>
+      <Button variant="outline" onClick={() => router.back()}>
         ← Back
       </Button>
     </div>
   );
 
-  // Show application tracker if requested
-  if (showTracker && existingApplication) {
+  // Show application tracker if user has already applied
+  if (existingApplication) {
     return (
       <div className="space-y-6">
         {BackButton}
@@ -106,6 +97,9 @@ export function MemberApplicationPage() {
     return (
       <div className="space-y-6">
         {BackButton}
+        <Button variant="outline" onClick={handleBack} className="mb-4">
+          ← Back to Selection
+        </Button>
         <TrainerApplicationForm onSubmitted={handleApplicationSubmitted} />
       </div>
     );
@@ -115,6 +109,9 @@ export function MemberApplicationPage() {
     return (
       <div className="space-y-6">
         {BackButton}
+        <Button variant="outline" onClick={handleBack} className="mb-4">
+          ← Back to Selection
+        </Button>
         <VolunteerApplicationForm onSubmitted={handleApplicationSubmitted} />
       </div>
     );
@@ -168,10 +165,10 @@ export function MemberApplicationPage() {
             </div>
 
             <Button
-              onClick={() => existingApplication?.applicationType === 'trainer' ? handleTrackApplication() : handleTypeSelect('trainer')}
+              onClick={() => handleTypeSelect('trainer')}
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
             >
-              {existingApplication?.applicationType === 'trainer' ? 'Track Application' : 'Apply as Trainer'}
+              Apply as Trainer
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </CardContent>
@@ -209,10 +206,10 @@ export function MemberApplicationPage() {
             </div>
 
             <Button
-              onClick={() => existingApplication?.applicationType === 'volunteer' ? handleTrackApplication() : handleTypeSelect('volunteer')}
+              onClick={() => handleTypeSelect('volunteer')}
               className="w-full bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700"
             >
-              {existingApplication?.applicationType === 'volunteer' ? 'Track Application' : 'Apply as Volunteer'}
+              Apply as Volunteer
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </CardContent>

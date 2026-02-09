@@ -4,7 +4,7 @@
  */
 
 import { isMockMode } from '@/lib/config';
-import { mockDatabase } from './mockData';
+import { memoryDb } from './mockData'; // Import the shared memoryDb
 import type {
   IUser,
   IWorkshop,
@@ -14,9 +14,6 @@ import type {
   ICustomRequest,
   IAnalytics,
 } from './schemas';
-
-// Mock in-memory database
-const memoryDb = JSON.parse(JSON.stringify(mockDatabase));
 
 export const db = {
   // Users

@@ -37,6 +37,8 @@ export interface IWorkshop {
   trainer: string; // user ID
   trainerName?: string;
   trainerBio?: string;
+  trainerPhoto?: string; // URL to trainer photo
+  trainerIntroVideo?: string; // URL to 20-30 sec intro video
   trainerContact?: {
     email?: string;
     phone?: string;
@@ -44,6 +46,15 @@ export interface IWorkshop {
   image?: string;
   materials?: string[]; // URLs to PDFs, videos, etc.
   status: 'draft' | 'published' | 'completed' | 'cancelled';
+  // ✨ Workshop Features & Learning
+  workshopFeatures?: string[]; // List of workshop features/benefits
+  learningObjectives?: string[]; // What participants will learn
+  workshopMetrics?: {
+    attendeeSatisfaction?: string; // e.g., "98%"
+    skillsGained?: string[]; // Skills participants gain
+    careerImpact?: string; // Impact on career/life
+  };
+  recordingUrl?: string; // URL to workshop recording for attended workshops
   // 🗺️ Location Details
   locationDetails?: {
     address?: string;

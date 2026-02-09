@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/email/emailService';
-import { memoryDb } from '@/lib/mongodb/mockData';
+import { db } from '@/lib/mongodb/db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
       registrationDetails,
     });
 
-    // Get the workshop
-    const workshop = memoryDb.workshops.find(w => w._id === workshopId);
+    // Get the workshop using db abstraction
+    const workshop = await db.workshops.findById(workshopId);
     if (!workshop) {
       return NextResponse.json(
         { error: 'Workshop not found' },
@@ -29,8 +29,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user details (from mock)
-    const user = memoryDb.users?.find(u => u._id === userId);
+    console.log('[BOOKING] Found workshop:', workshop.title);
+    console.log('[BOOKING] Current registrations:', workshop.registrations);
+
+    console.log('[BOOKING] Found workshop:', workshop.title);
+    console.log('[BOOKING] Current registrations:', workshop.registrations);
+
+    // Get user details
+    const user = await db.users.findById(userId);
     const userEmail = user?.email || registrationDetails?.email || 'participant@happiness.com';
     const userName = user?.name || registrationDetails?.fullName || 'User';
 
@@ -41,17 +47,18 @@ export async function POST(request: NextRequest) {
 
     if (existingRegistration) {
       // Update status instead of creating new
+      console.log('[BOOKING] Updating existing registration, old status:', existingRegistration.status, 'new status:', status);
       existingRegistration.status = status;
       existingRegistration.registrationDetails = registrationDetails;
-      existingRegistration.registeredAt = new Date().toISOString();
+      existingRegistration.registeredAt = new Date();
     } else {
       // Create new registration
+      console.log('[BOOKING] Creating new registration with status:', status);
       const registration = {
-        _id: Math.random().toString(36).substr(2, 9),
         userId,
         status,
         registrationDetails,
-        registeredAt: new Date().toISOString(),
+        registeredAt: new Date(),
       };
 
       if (!workshop.registrations) {
@@ -59,11 +66,20 @@ export async function POST(request: NextRequest) {
       }
       workshop.registrations.push(registration);
 
-      // Update current enrollment
-      workshop.currentEnrollment = (workshop.currentEnrollment || 0) + 1;
+      // Update current enrollment only for booked status
+      if (status === 'booked') {
+        workshop.currentEnrollment = (workshop.currentEnrollment || 0) + 1;
+      }
     }
 
-    console.log('[BOOKING] Registration successful for user:', userId, 'workshop:', workshopId);
+    // Update the workshop in the database
+    await db.workshops.update(workshopId, { 
+      registrations: workshop.registrations,
+      currentEnrollment: workshop.currentEnrollment,
+    });
+
+    console.log('[BOOKING] Registration successful for user:', userId, 'workshop:', workshopId, 'status:', status);
+    console.log('[BOOKING] Updated registrations:', workshop.registrations);
 
     // Send confirmation email
     try {
@@ -110,7 +126,6 @@ export async function POST(request: NextRequest) {
         success: true,
         message: `Successfully ${status === 'booked' ? 'registered for' : 'marked as interested in'} the workshop!`,
         booking: {
-          _id: existingRegistration?._id || Math.random().toString(36).substr(2, 9),
           workshopId,
           workshopTitle: workshop.title,
           status,
@@ -139,14 +154,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get all bookings for this user across all workshops
+    // Get all workshops and filter bookings
+    const workshops = await db.workshops.findAll();
     const bookings: any[] = [];
 
-    memoryDb.workshops.forEach(workshop => {
+    workshops.forEach(workshop => {
       const registration = workshop.registrations?.find(r => r.userId === userId);
       if (registration) {
         bookings.push({
-          _id: registration._id,
           workshopId: workshop._id,
           workshopTitle: workshop.title,
           date: workshop.date,

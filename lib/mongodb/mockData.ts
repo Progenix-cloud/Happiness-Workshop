@@ -211,7 +211,9 @@ export const mockWorkshops: IWorkshop[] = [
     currentEnrollment: 3,
     trainer: '2', // Dr. Sarah Johnson
     trainerName: 'Dr. Sarah Johnson',
-    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience',
+    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience in mindfulness, meditation, and positive psychology. Helping thousands transform their lives.',
+    trainerPhoto: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
+    trainerIntroVideo: 'https://www.w3schools.com/html/mov_bbb.mp4', // Sample video
     trainerContact: {
       email: 'trainer@happiness.com',
       phone: '+1 (555) 123-4567',
@@ -225,6 +227,26 @@ export const mockWorkshops: IWorkshop[] = [
     },
     averageRating: 4.8,
     totalRatings: 15,
+    workshopFeatures: [
+      'Interactive guided meditation sessions',
+      'Personalized mindfulness techniques',
+      'Take-home practice materials',
+      'Small group discussions',
+      'Certificate of completion',
+      'Lifetime access to workshop recordings',
+    ],
+    learningObjectives: [
+      'Master basic meditation techniques for daily practice',
+      'Understand the science behind mindfulness',
+      'Develop stress management skills',
+      'Create a sustainable mindfulness routine',
+      'Connect with like-minded individuals',
+    ],
+    workshopMetrics: {
+      attendeeSatisfaction: '98%',
+      skillsGained: ['Meditation', 'Stress Management', 'Mindfulness', 'Self-Awareness'],
+      careerImpact: '87% of participants reported improved focus and productivity at work',
+    },
     feedbackComments: [
       {
         userId: '4',
@@ -247,6 +269,7 @@ export const mockWorkshops: IWorkshop[] = [
     shares: 8,
     joyCoinsReward: 20, // 💰 Reward for completing
     isProcessed: false,
+    recordingUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', // Sample recording URL
     registrations: [
       { userId: '4', status: 'attended', registeredAt: new Date('2024-02-10') },
       { userId: '5', status: 'attended', registeredAt: new Date('2024-02-10') },
@@ -270,7 +293,9 @@ export const mockWorkshops: IWorkshop[] = [
     currentEnrollment: 2,
     trainer: '2',
     trainerName: 'Dr. Sarah Johnson',
-    trainerBio: 'Certified Happiness & Well-being Coach with 10+ years of experience',
+    trainerBio: 'Certified Yoga Instructor and Wellness Coach specializing in holistic health and happiness through movement.',
+    trainerPhoto: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400',
+    trainerIntroVideo: 'https://www.w3schools.com/html/movie.mp4', // Sample video
     trainerContact: {
       email: 'trainer@happiness.com',
       phone: '+1 (555) 123-4567',
@@ -284,6 +309,26 @@ export const mockWorkshops: IWorkshop[] = [
     },
     averageRating: 4.5,
     totalRatings: 8,
+    workshopFeatures: [
+      'Professional yoga mat and equipment provided',
+      'Beginner-friendly instruction',
+      'Breathwork and meditation integration',
+      'Healthy refreshments included',
+      'Photo session for social sharing',
+      'Exclusive workshop community access',
+    ],
+    learningObjectives: [
+      'Learn foundational yoga poses and flows',
+      'Understand the connection between body and mind',
+      'Practice effective breathing techniques',
+      'Improve flexibility and balance',
+      'Reduce stress through movement',
+    ],
+    workshopMetrics: {
+      attendeeSatisfaction: '95%',
+      skillsGained: ['Yoga', 'Breathwork', 'Flexibility', 'Balance', 'Stress Relief'],
+      careerImpact: '92% reported improved energy levels and reduced stress',
+    },
     feedbackComments: [],
     likes: ['4'],
     shares: 3,
